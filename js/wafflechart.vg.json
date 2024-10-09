@@ -1,0 +1,67 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "height": 400,
+    "width": 400,
+    "title": "IMF Classification of Countries in 2023",
+    "background": "#e2e3de",
+    "data": {
+      "url": "data/imfcountries.csv"
+    },
+    "transform": [
+      {
+        "joinaggregate": [
+          {"op": "count", "field": "imf_class_2023", "as": "TotalCount"}
+        ]
+      },
+      {
+        "joinaggregate": [
+          {"op": "count", "field": "imf_class_2023", "as": "ClassCount"}
+        ],
+        "groupby": ["imf_class_2023"]
+      },
+      {
+        "calculate": "round(datum.ClassCount / datum.TotalCount * 100)",
+        "as": "Percent"
+      },
+      {
+        "aggregate": [{"op": "min", "field": "Percent", "as": "P"}],
+        "groupby": ["imf_class_2023"]
+      },
+      {"calculate": "sequence(1,datum.P+1)", "as": "S"},
+      {"flatten": ["S"]},
+      {
+        "window": [{"op": "row_number", "as": "id"}],
+        "sort": [{"field": "imf_class_2023", "order": "ascending"}]
+      },
+      {"calculate": "ceil (datum.id / 10)", "as": "row"},
+      {"calculate": "datum.id - datum.row * 10", "as": "col"}
+    ],
+    "mark": {
+      "type": "rect",
+      "filled": true,
+      "tooltip": true,
+      "stroke": "black",
+      "strokeWidth": 0.5
+    },
+    "encoding": {
+      "x": {"field": "col", "type": "ordinal", "axis": null},
+      "y": {"field": "row", "type": "ordinal", "axis": null, "sort": "-y"},
+      "color": {
+        "field": "imf_class_2023",
+        "type": "nominal",
+        "scale": {
+          "domain": ["Advanced", "Emerging", "Others"],
+          "range": ["#FF4B33", "#F4D03F", "#c0c0c0"]
+        },
+        "legend": {
+          "title": "Classification",
+          "symbolStrokeWidth": 0
+        }
+      },
+      "tooltip": [
+        {"field": "imf_class_2023", "title": "Classification", "type": "nominal"},
+        {"field": "P", "title": "Percentage(%)", "type": "quantitative", "format": ".0f"}
+      ]    
+    }
+  }
+  

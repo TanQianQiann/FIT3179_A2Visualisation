@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>FIT3179 Data Visualization 2</title>
+
+  <!-- Import Vega & Vega-Lite -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+
+  <!-- Import pure.css -->
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+    integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+
+  <!-- Google font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+
+  <!-- CSS for styles -->
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: #c4bdb7;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: center;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 40px;
+    }
+
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .card-narrow {
+      background-color: #e2e3de;
+      padding: 15px;
+      border-radius: 8px;
+      /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); */
+      margin-bottom: 30px;
+      width: 48%; /* Set width to 48% so two cards fit in one row */
+      height: 500px; /* Set a fixed height for the card */
+      box-sizing: border-box;
+      margin: 10px;
+      
+      /* Flexbox to center content inside the card */
+      display: flex;
+      justify-content: center; /* Horizontally center content */
+      align-items: center; /* Vertically center content */
+    }
+
+    
+    .card-wide {
+      background-color: #e2e3de;
+      padding: 15px;
+      border-radius: 8px;
+      /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);  */
+      margin-bottom: 30px; 
+      width: calc(100% - 50px); /* Set fixed width in pixels */
+      height: 600px; /* Set fixed height in pixels */
+
+      margin: 10px;
+      
+      display: flex;
+      justify-content: center; /* Horizontally center content */
+      align-items: center; /* Vertically center content */
+      flex-direction: column; /* Stack charts vertically */
+
+      padding-top: 60px; /* Add padding to the top */
+    }
+
+    .text-container {
+      flex: 0 0 15%; /* Fixed height for the text area */
+      padding: 5px; /* Padding for the text area */
+      text-align: left; /* Align text to the left */
+      background-color: #cdc7bb;
+      width: 90%;
+      border-radius: 8px;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    /* Media query to stack cards on smaller screens */
+    @media (max-width: 768px) {
+      .card {
+        width: 100%;
+      }
+    }
+
+    .vis-container {
+      width: 100%;
+      height: calc(100% - 40px); /* Adjust the height to fit the content */
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <!-- Page Header -->
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h1>World Development</h1>
+      </div>
+    </div>
+
+    <!-- Visualization Cards -->
+    <div class="card-container">
+
+      <!-- Choropleth Map Card -->
+      <div class="card-wide">
+        <div id="vis1" class="vis-container"></div>
+        <div class="text-container">
+          <p>Explanation</p>
+        </div>
+      </div>
+
+      <!-- Bubble Plot Card -->
+      <div class="card-wide">
+        <div id="vis2" class="vis-container"></div>
+        <div class="text-container">
+          <p>Explanation</p>
+        </div>
+      </div>
+
+      <!-- Waffle Chart Card -->
+      <div class="card-narrow">
+        <div id="vis3" class="vis-container"></div>
+      </div>
+
+      <!-- Sankey Diagram Card -->
+      <div class="card-narrow">
+        <div id="vis4" class="vis-container"></div>
+      </div>
+
+      <!-- Area Chart Card -->
+      <div class="card-wide">
+        <div id="vis5" class="vis-container"></div>
+        <div class="text-container">
+          <p>Explanation</p>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div> <!-- End page -->
+
+  <script type="text/javascript">
+    var specVis1 = "js/choropleth_map.vg.json";
+    var specVis2 = "js/bubbleplot.vg.json";
+    var specVis3 = "js/wafflechart.vg.json";
+    var specVis4 = "js/sankeydiagram.vg.json";
+    var specVis5 = "js/areachart.vg.json";
+
+    vegaEmbed('#vis1', specVis1, { "actions": false }).then(function (result) {
+      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+    }).catch(console.error);
+
+    vegaEmbed('#vis2', specVis2, { "actions": false }).then(function (result) {
+      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+    }).catch(console.error);
+
+    vegaEmbed('#vis3', specVis3, { "actions": false }).then(function (result) {
+      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+    }).catch(console.error);
+
+    vegaEmbed('#vis4', specVis4, { "actions": false }).then(function (result) {
+      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+    }).catch(console.error);
+
+    vegaEmbed('#vis5', specVis5, { "actions": false }).then(function (result) {
+      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+    }).catch(console.error);
+  </script>
+
+</body>
+
+</html>
